@@ -1,0 +1,154 @@
+#include <iostream>
+#include<vector>
+#include <iterator>
+#include<ctime>
+using namespace std;
+
+template<typename T >
+class Deque {
+    private:
+        vector<T> b;
+        vector<T> f;
+        T val;
+public:
+    Deque(){ }
+
+    void Get(){
+        int k=0;
+        for (auto i : f){
+            if (k!=0){
+            cout << i << " ";}
+        }
+        for (auto i : b){
+            cout << i << " ";
+        }
+
+
+        cout << endl;
+    }
+
+    bool Empty() const{
+        return  (b.size()==0 && f.size()==0);
+
+    }
+
+    size_t Size() const {
+        if (f.size()!=0){ return b.size()+f.size()-1;}
+        return b.size()+f.size();
+    }
+    const T& operator [] (size_t idx) const {
+        if (idx>=f.size()) return b[idx-f.size()];
+        if(idx<f.size())return f[idx];
+    }
+
+    T& operator [] (size_t idx) {
+        if (idx>=f.size()) return b[idx-f.size()];
+        if(idx<f.size())return f[idx];
+    }
+
+     const T& At(size_t index) const {
+        if(index >= f.size()+b.size()  ){
+            throw out_of_range("");
+        }
+         if (index>=f.size()) return b[index-f.size()];
+         if(index<f.size())return f[index];
+    }
+    T& At(size_t index){
+        if(index >= f.size()+b.size()  ){
+            __throw_out_of_range_fmt("out of range");
+        }
+        if (index>=f.size()) return b[index-f.size()];
+        if(index<f.size())return f[index];
+    }
+
+    const T&  Front()const {
+        if (!Empty() && f.size()!=0 ) return f[0];
+        if(!Empty() && f.size()==0)return b[0];
+    }
+
+    T& Front () {
+        if (!Empty() && f.size()!=0 ) return f[0];
+        if(!Empty() && f.size()==0)return b[0];
+    }
+
+    const T& Back() const {
+        if (!Empty() && b.size()!=0 )return b[b.size()-1];
+        if (!Empty() && b.size()==0 )return f[f.size()-1];
+    }
+    T& Back()  {
+        if (!Empty() && b.size()!=0 )return b[b.size()-1];
+        if (!Empty() && b.size()==0 )return f[f.size()-1];
+    }
+
+
+    void PushBack(const T& value){
+        b.push_back(value);
+    }
+    const void PushBack(const T& value) const{
+        b.push_back(value);
+    }
+
+
+    void PushFront(const T& value){
+
+        if (f.size()>1) {
+
+            T tmp=f[f.size()-1];
+            T t=value;
+
+            for (int i=0;i<f.size()-1;i++) {
+                    f[i] = t;
+                    t=f[i+1];
+            }
+
+            f.push_back(tmp);
+        }
+        if(f.size()==0) {f.push_back(value);}
+
+         if(f.size()==1){
+         T tmp=f[0];
+         f.clear();
+         cout<<f[0]<<"ПУСТОЙ БЛЯТЬ?"<<endl;
+         f.push_back(value);
+         f.push_back(tmp);
+             cout<<f[0]<<"  TVAR  "<<f[1] <<endl;}
+
+
+    }
+    const void PushFront(const T& value)const{
+    if(f.size()==0){
+        f.push_back(0);
+    }
+    f.push_back(value);
+        
+    }
+
+};
+int main(){
+    time_t start, end;
+    time(&start);
+    auto dq = Deque<int>();
+    cout<<dq.Empty()<<endl;
+    dq.PushBack(1);
+    dq.PushBack(2);
+    dq.PushBack(3);
+    dq.PushFront(73);
+    dq.PushBack(65);
+    dq.PushBack(4);
+    dq.PushBack(5);
+    dq.PushBack(6);
+    dq.PushFront(0);
+    dq.PushFront(23);
+    dq.PushFront(24);
+    dq.PushFront(25);
+
+    cout<<dq.Front()<<"      SOOQ A       ";
+    int k=dq.Back();
+    dq.Get();
+    cout<<k <<"      БЛЯДОДЛИНА   "<<dq.Size()<<endl;
+    dq.Get();
+    cout<<dq.At(9);
+    time(&end);
+        cout<<end-start<<"Vrymya"<<endl;
+        return 0;
+}
