@@ -1,0 +1,60 @@
+#include <algorithm>
+#include <string>
+#include <vector>
+#include "profile.h"
+#include <set>
+#include <istream>
+#include <sstream>
+
+using namespace std;
+
+class Learner {
+private:
+    vector<string> dict;
+    set<string> temp;
+public:
+
+        LOG_DURATION("thisshit");
+        int Learn(const vector<string> &words) {
+
+            int newWords = temp.size();
+            int k = 1;
+            for (const string &st: words) {
+                temp.insert(st);
+            }
+
+            return (temp.size() - newWords);
+
+        }
+
+    LOG_DURATION("sdk");
+    vector<string> KnownWords() {
+        dict.clear();
+    for (auto x : temp){
+        dict.push_back(x);
+    }
+        return dict;
+    }
+
+};
+
+
+int main() {
+    Learner learner;
+    string line;
+    while (getline(cin, line)) {
+        vector<string> words;
+        stringstream ss(line);
+        string word;
+        while (ss >> word) {
+            words.push_back(word);
+        }
+        cout << learner.Learn(words) << "\n";
+        cout << "=== known words ===\n";
+        for (auto word : learner.KnownWords()) {
+            cout << word << "\n";
+        }
+    }
+        return 0;
+    }
+
