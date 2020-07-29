@@ -1,0 +1,88 @@
+#include <iostream>
+#include <utility>
+#include <vector>
+#include <array>
+#include  <list>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+typedef std::pair <int, int> Segment;
+
+bool my_pair_sort(Segment s1, Segment s2)  {
+    return (s1.second < s2.second);
+}
+/*
+#include <iostream>
+#include <utility>
+#include <vector>
+#include <algorithm>
+
+typedef std::pair <int, int> Segment;
+
+bool my_pair_sort(Segment s1, Segment s2)  {
+    return (s1.second < s2.second);
+}
+
+std::vector <int> get_covering_set(std::vector <Segment> segments) {
+    std::vector <int> result;
+    std::sort(segments.begin(), segments.end(), my_pair_sort);
+    int cur_dot = 0;
+    for (std::size_t i = 0; i < segments.size(); i++) {
+        cur_dot = segments[i].second;
+        result.push_back(cur_dot);
+
+        while (i < segments.size() && segments[i+1].first <= cur_dot) {
+            i++;
+        }
+    }
+
+    return result;
+}
+
+int main(void) {
+    int segments_count;
+    std::cin >> segments_count;
+    std::vector <Segment> segments(segments_count);
+    for (int i = 0; i < segments_count; i++) {
+        std::cin >> segments[i].first >> segments[i].second;
+    }
+
+    std::vector <int> points = get_covering_set(segments);
+    std::cout << points.size() << std::endl;
+    for (std::size_t i = 0; i < points.size(); i++) {
+        std::cout << points[i] << " ";
+    }
+    std::cout << std::endl;
+}*/
+
+
+
+int main() {
+    int n,x,y,tmp,coord;
+    vector<Segment> rhs;
+    vector<int>lhs;
+    cin >>n;
+    for (int i=0;i<n;i++){
+        cin>>x;
+        cin>>y;
+
+        rhs.push_back({x,y});
+
+    }
+    sort(rhs.begin(),rhs.end(),my_pair_sort);
+    int cover=0;
+    vector<int>grid;
+    for (int i=0;i<n;i++){
+        cover = rhs[i].second;
+        grid.push_back(cover);
+
+        while( i<n &&  rhs[i+1].first <= cover  ) {++i;}
+
+    }
+    cout<<grid.size()<< endl;
+    for (auto X : grid){
+        cout  <<X<<" ";
+    }
+    return 0;
+}
