@@ -1,0 +1,58 @@
+#include <iostream>
+#include <utility>
+#include <vector>
+#include <array>
+#include  <list>
+#include <map>
+#include <algorithm>
+#include <iomanip>
+using namespace std;
+
+typedef std::pair <int, int> Segment;
+
+bool my_pair_sort(Segment s1, Segment s2)  {
+    return (s1.second < s2.second);
+}
+
+int main() {
+    int n;
+    double W,cost,value;
+
+    cin >> n;
+    cin>> W;
+    vector<pair<double,int>>res;
+    vector<int>C,V;
+
+    for (int i=0;i<n;i++){
+        cin>>cost;
+        cin >>value;
+        res.push_back({cost/value,i});
+        C.push_back(cost);
+        V.push_back(value);
+    }
+    sort(res.rbegin(),res.rend());
+    double kef;
+
+    double sum=0;
+    if (W==0){
+        cout<<0;
+    }
+    else {
+        for (int i = 0; i < V.size(); i++) {
+            kef = W / V[res[i].second];
+            
+            if (kef <= 1) {
+                sum += kef * C[res[i].second];
+                break;
+            }
+            if (kef > 1) {
+                sum += C[res[i].second];
+                W = W - V[res[i].second];
+            }
+        }
+    }
+
+    cout << std::fixed << std::setprecision(3) << sum << std::endl;
+
+    return 0;
+}
