@@ -1,0 +1,79 @@
+#include <map>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+
+
+int main() {
+
+    vector<pair<int,char>>all;
+    map<char,int>MyMap;
+    map<char,vector<int>>A;
+    vector<int>vec;
+    string s;
+    cin>> s;
+    for (auto x : s){
+        ++MyMap[x];
+    }
+    for (auto  x: MyMap){
+        all.push_back({x.second,x.first});
+    }
+    sort(all.rbegin(),all.rend());
+
+    int i=0;
+
+    for(auto x:all){
+
+        if(i==0){
+            A[x.second]={0};
+        }
+        if(i+1==all.size()&& i!=0) {
+            vec.push_back(1);
+            A[x.second]=vec;
+            break;
+        }
+        if (i%2==0 && i!=0) {
+            vec.push_back(1);
+            vec.push_back(0);
+
+            A[x.second]=vec;
+
+            vec.pop_back();
+        }
+        if(i%2!=0&& i!=0){
+            vec.push_back(1);
+            vec.push_back(0);
+            A[x.second]=vec;
+            vec.pop_back();
+        }
+        i++;
+
+    }int cc=0;
+
+
+    for (auto x:s){
+        cc+=A[x].size();
+    }
+
+    cout <<A.size()<<" "<< cc<<"\n";
+
+    for (auto x:A){
+        cout << x.first<<" : ";
+        for (auto beg:x.second){
+            cout<<beg;
+        }
+        cout<<"\n";
+    }
+
+    for (auto x:s){
+        for (auto beg:A[x]){
+            cout<<beg;
+        }
+
+    }
+    return 0;
+}
